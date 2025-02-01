@@ -67,3 +67,5 @@ go.work
 *.bkp
 *.drawio
 /.idea/
+
+.qodo
