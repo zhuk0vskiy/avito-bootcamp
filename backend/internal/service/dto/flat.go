@@ -15,7 +15,7 @@ type CreateFlatRequest struct {
 
 type CreateFlatResponse struct {
 	ID               uuid.UUID
-	CreateTime       time.Time
+	CreationTime     time.Time
 	CreatorID        uuid.UUID
 	HouseID          uuid.UUID
 	Price            int
@@ -39,7 +39,7 @@ type GetByIDRequest struct {
 
 type GetByIDResponse struct {
 	ID               uuid.UUID
-	CreateTime       time.Time
+	CreationTime     time.Time
 	CreatorID        uuid.UUID
 	HouseID          uuid.UUID
 	Price            int
@@ -56,7 +56,7 @@ type GetByHouseIDRequest struct {
 type GetByHouseIDResponse struct {
 	Flats []*struct {
 		ID               uuid.UUID
-		CreateTime       time.Time
+		CreationTime     time.Time
 		CreatorID        uuid.UUID
 		HouseID          uuid.UUID
 		Price            int
@@ -73,10 +73,9 @@ type UpdateFlatStatusRequest struct {
 	ModeratorID uuid.UUID
 }
 
-
 type UpdateFlatStatusResponse struct {
 	ID               uuid.UUID
-	CreateTime       time.Time
+	CreationTime     time.Time
 	CreatorID        uuid.UUID
 	HouseID          uuid.UUID
 	Price            int

@@ -1,7 +1,7 @@
 package user
 
 import (
-	"backend/internal/model/dto"
+	"backend/internal/service/dto"
 	"context"
 )
 

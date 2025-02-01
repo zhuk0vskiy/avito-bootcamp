@@ -6,15 +6,17 @@ import (
 	"github.com/google/uuid"
 )
 
-type CreateHouseRequest struct {
-	CreatorID uuid.UUID
-	Adress    string
-	MaxFlats  int
+type AddHouseRequest struct {
+	CreationTime    time.Time
+	CreatorID       uuid.UUID
+	Adress          string
+	MaxFlats        int
+	UpdateFlatsTime time.Time
 }
 
-type CreateHouseResponse struct {
+type AddHouseResponse struct {
 	ID              uuid.UUID
-	CreateTime      time.Time
+	CreationTime    time.Time
 	CreatorID       uuid.UUID
 	Adress          string
 	MaxFlats        int
@@ -35,7 +37,7 @@ type GetHouseByIDRequest struct {
 
 type GetHouseByIDRespone struct {
 	ID              uuid.UUID
-	CreateTime      time.Time
+	CreationTime    time.Time
 	CreatorID       uuid.UUID
 	Adress          string
 	MaxFlats        int

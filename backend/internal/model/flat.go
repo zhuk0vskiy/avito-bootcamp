@@ -9,7 +9,7 @@ import (
 
 type Flat struct {
 	ID               uuid.UUID
-	CreateTime       time.Time
+	CreationTime     time.Time
 	CreatorID        uuid.UUID
 	HouseID          uuid.UUID
 	Price            int

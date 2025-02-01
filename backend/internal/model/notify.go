@@ -13,7 +13,7 @@ const (
 
 type Notify struct {
 	ID           uuid.UUID
-	CreateTime   time.Time
+	CreationTime time.Time
 	FlatID       uuid.UUID
 	HouseID      uuid.UUID
 	SubscriberID uuid.UUID

@@ -9,7 +9,7 @@ import (
 
 type House struct {
 	ID              uuid.UUID
-	CreateTime      time.Time
+	CreationTime    time.Time
 	CreatorID       uuid.UUID
 	Adress          string
 	MaxFlats        int

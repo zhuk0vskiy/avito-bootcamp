@@ -8,11 +8,11 @@ import (
 )
 
 type User struct {
-	ID          uuid.UUID
-	CreateTime  time.Time
-	Mail        string
-	Password    string
-	IsModerator bool
+	ID           uuid.UUID
+	CreationTime time.Time
+	Mail         string
+	Password     string
+	IsModerator  bool
 }
 
 var (
