@@ -5,7 +5,7 @@ import (
 	"context"
 )
 
-type HouseIntr interface {
+type HouseIntf interface {
 	Create(ctx context.Context, request *dto.CreateHouseRequest) (*dto.CreateHouseResponse, error)
 	Delete(ctx context.Context, request *dto.DeleteHouseRequest) error
 	GetByID(ctx context.Context, request *dto.GetByHouseIDRequest) (*dto.GetByHouseIDResponse, error)

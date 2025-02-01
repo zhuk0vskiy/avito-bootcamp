@@ -7,20 +7,20 @@ import (
 )
 
 type AddHouseRequest struct {
-	CreationTime    time.Time
-	CreatorID       uuid.UUID
-	Adress          string
-	MaxFlats        int
-	UpdateFlatsTime time.Time
+	CreationTime         time.Time
+	CreatorID            uuid.UUID
+	Adress               string
+	Maxapartments        int
+	UpdateapartmentsTime time.Time
 }
 
 type AddHouseResponse struct {
-	ID              uuid.UUID
-	CreationTime    time.Time
-	CreatorID       uuid.UUID
-	Adress          string
-	MaxFlats        int
-	UpdateFlatsTime time.Time
+	ID                   uuid.UUID
+	CreationTime         time.Time
+	CreatorID            uuid.UUID
+	Adress               string
+	Maxapartments        int
+	UpdateapartmentsTime time.Time
 }
 
 type DeleteHouseRequest struct {
@@ -36,10 +36,10 @@ type GetHouseByIDRequest struct {
 }
 
 type GetHouseByIDRespone struct {
-	ID              uuid.UUID
-	CreationTime    time.Time
-	CreatorID       uuid.UUID
-	Adress          string
-	MaxFlats        int
-	UpdateFlatsTime time.Time
+	ID                   uuid.UUID
+	CreationTime         time.Time
+	CreatorID            uuid.UUID
+	Adress               string
+	Maxapartments        int
+	UpdateapartmentsTime time.Time
 }

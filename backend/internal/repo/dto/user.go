@@ -1,6 +1,10 @@
 package dto
 
-import "time"
+import (
+	"time"
+
+	"github.com/google/uuid"
+)
 
 type AddUserRequest struct {
 	CreationTime time.Time
@@ -11,15 +15,18 @@ type AddUserRequest struct {
 }
 
 type AddUserResponse struct {
+	ID           uuid.UUID
 	CreationTime time.Time
 }
 
-type GetUserRequest struct {
+type GetUserByEmailRequest struct {
 	Email string
 }
 
 type GetUserResponse struct {
-	Email      string
-	Password   []byte
-	TotpSecret []byte
+	ID          uuid.UUID
+	Email       string
+	Password    []byte
+	TotpSecret  []byte
+	IsModerator bool
 }

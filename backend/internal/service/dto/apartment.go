@@ -6,33 +6,30 @@ import (
 	"github.com/google/uuid"
 )
 
-type AddFlatRequest struct {
-	CreationTime     time.Time
-	CreatorID        uuid.UUID
-	HouseID          uuid.UUID
-	Price            int
-	Rooms            int
-	Status           string
-	StatusUpdateTime time.Time
+type CreateapartmentRequest struct {
+	CreatorID uuid.UUID
+	HouseID   uuid.UUID
+	Price     int64
+	Rooms     int32
 }
 
-type AddFlatResponse struct {
+type CreateapartmentResponse struct {
 	ID               uuid.UUID
 	CreationTime     time.Time
 	CreatorID        uuid.UUID
 	HouseID          uuid.UUID
-	Price            int
-	Rooms            int
+	Price            int64
+	Rooms            int32
 	Status           string
 	StatusUpdateTime time.Time
 	ModeratorID      uuid.UUID
 }
 
-type DeleteFlatRequest struct {
+type DeleteapartmentRequest struct {
 	ID uuid.UUID
 }
 
-// type DeleteFlatResponse struct {
+// type DeleteapartmentResponse struct {
 
 // }
 
@@ -45,8 +42,8 @@ type GetByIDResponse struct {
 	CreationTime     time.Time
 	CreatorID        uuid.UUID
 	HouseID          uuid.UUID
-	Price            int
-	Rooms            int
+	Price            int64
+	Rooms            int32
 	Status           string
 	StatusUpdateTime time.Time
 	ModeratorID      uuid.UUID
@@ -57,33 +54,32 @@ type GetByHouseIDRequest struct {
 }
 
 type GetByHouseIDResponse struct {
-	Flats []*struct {
+	apartments []*struct {
 		ID               uuid.UUID
 		CreationTime     time.Time
 		CreatorID        uuid.UUID
 		HouseID          uuid.UUID
-		Price            int
-		Rooms            int
+		Price            int64
+		Rooms            int32
 		Status           string
 		StatusUpdateTime time.Time
 		ModeratorID      uuid.UUID
 	}
 }
 
-type UpdateFlatStatusRequest struct {
-	ID               uuid.UUID
-	Status           string
-	StatusUpdateTime time.Time
-	ModeratorID      uuid.UUID
+type UpdateapartmentStatusRequest struct {
+	ID          uuid.UUID
+	Status      string
+	ModeratorID uuid.UUID
 }
 
-type UpdateFlatStatusResponse struct {
+type UpdateapartmentStatusResponse struct {
 	ID               uuid.UUID
 	CreationTime     time.Time
 	CreatorID        uuid.UUID
 	HouseID          uuid.UUID
-	Price            int
-	Rooms            int
+	Price            int64
+	Rooms            int32
 	Status           string
 	StatusUpdateTime time.Time
 	ModeratorID      uuid.UUID

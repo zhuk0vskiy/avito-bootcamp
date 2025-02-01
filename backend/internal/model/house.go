@@ -8,12 +8,12 @@ import (
 )
 
 type House struct {
-	ID              uuid.UUID
-	CreationTime    time.Time
-	CreatorID       uuid.UUID
-	Adress          string
-	MaxFlats        int
-	UpdateFlatsTime time.Time
+	ID                   uuid.UUID
+	CreationTime         time.Time
+	CreatorID            uuid.UUID
+	Adress               string
+	Maxapartments        int
+	UpdateapartmentsTime time.Time
 }
 
 var (
