@@ -5,10 +5,10 @@ import (
 	"context"
 )
 
-type apartmentIntf interface {
+type ApartmentIntf interface {
 	Create(ctx context.Context, request *dto.CreateapartmentRequest) (*dto.CreateapartmentResponse, error)
 	Delete(ctx context.Context, request *dto.CreateapartmentResponse) error
 	GetByID(ctx context.Context, request *dto.GetByIDRequest) (*dto.GetByIDResponse, error)
 	GetByHouseID(ctx context.Context, request *dto.GetByHouseIDRequest) (*dto.GetByHouseIDResponse, error)
-	UpdateStatus(ctx context.Context, request *dto.UpdateapartmentStatusRequest) (*dto.UpdateapartmentStatusResponse, error)
+	UpdateStatus(ctx context.Context, request *dto.UpdateApartmentStatusRequest) (*dto.UpdateApartmentStatusResponse, error)
 }

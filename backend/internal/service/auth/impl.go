@@ -95,7 +95,6 @@ func (s *AuthService) SignUp(ctx context.Context, request *serviceDto.SignUpRequ
 	})
 
 	if err != nil {
-		s.logger.Errorf("%s -- %s", method, err)
 		return nil, err
 	}
 	return &serviceDto.SignUpResponse{
@@ -134,7 +133,6 @@ func (s *AuthService) LogIn(ctx context.Context, request *serviceDto.LogInReques
 	})
 
 	if err != nil {
-		s.logger.Errorf("%s -- %s", method, err)
 		return nil, err
 	}
 

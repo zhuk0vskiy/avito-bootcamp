@@ -24,7 +24,7 @@ const (
 	ApprovedStatus   = "approved"
 	DeclinedStatus   = "declined"
 	ModeratingStatus = "on moderation"
-	AnyStatus        = "any"
+	// AnyStatus        = "any"
 )
 
 var (
@@ -32,6 +32,7 @@ var (
 	ErrApartment_BadID           = errors.New("bad apartment id")
 	ErrApartment_BadHouseID      = errors.New("bad apartments house id")
 	ErrApartment_BadCreatorID    = errors.New("bad apartments creator id")
+	ErrApartment_BadModeratorID    = errors.New("bad apartments moderator id")
 	ErrApartment_BadRooms        = errors.New("bad apartment rooms")
 	ErrApartment_BadNewapartment = errors.New("bad new apartment for update")
 	ErrApartment_BadStatus       = errors.New("bad apartment status")

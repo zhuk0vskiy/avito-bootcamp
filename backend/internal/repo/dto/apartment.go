@@ -57,7 +57,7 @@ type GetByHouseIDRequest struct {
 }
 
 type GetByHouseIDResponse struct {
-	apartments []*struct {
+	Apartments []*struct {
 		ID               uuid.UUID
 		CreationTime     time.Time
 		CreatorID        uuid.UUID

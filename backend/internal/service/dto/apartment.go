@@ -54,7 +54,7 @@ type GetByHouseIDRequest struct {
 }
 
 type GetByHouseIDResponse struct {
-	apartments []*struct {
+	Apartments []*struct {
 		ID               uuid.UUID
 		CreationTime     time.Time
 		CreatorID        uuid.UUID
@@ -67,13 +67,13 @@ type GetByHouseIDResponse struct {
 	}
 }
 
-type UpdateapartmentStatusRequest struct {
+type UpdateApartmentStatusRequest struct {
 	ID          uuid.UUID
 	Status      string
 	ModeratorID uuid.UUID
 }
 
-type UpdateapartmentStatusResponse struct {
+type UpdateApartmentStatusResponse struct {
 	ID               uuid.UUID
 	CreationTime     time.Time
 	CreatorID        uuid.UUID
