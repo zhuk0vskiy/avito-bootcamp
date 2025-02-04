@@ -1,6 +1,7 @@
 package dto
 
 import (
+	"backend/internal/model"
 	"time"
 
 	"github.com/google/uuid"
@@ -17,15 +18,15 @@ type AddApartmentRequest struct {
 }
 
 type AddApartmentResponse struct {
-	ID               uuid.UUID
-	CreationTime     time.Time
-	CreatorID        uuid.UUID
-	HouseID          uuid.UUID
-	Price            int64
-	Rooms            int32
-	Status           string
-	StatusUpdateTime time.Time
-	ModeratorID      uuid.UUID
+	ID uuid.UUID
+	// CreationTime     time.Time
+	// CreatorID        uuid.UUID
+	// HouseID          uuid.UUID
+	// Price            int64
+	// Rooms            int32
+	// Status           string
+	// StatusUpdateTime time.Time
+	// ModeratorID      uuid.UUID
 }
 
 type DeleteapartmentRequest struct {
@@ -36,11 +37,11 @@ type DeleteapartmentRequest struct {
 
 // }
 
-type GetByIDRequest struct {
+type GetApartmentByIDRequest struct {
 	ID uuid.UUID
 }
 
-type GetByIDResponse struct {
+type GetApartmentByIDResponse struct {
 	ID               uuid.UUID
 	CreationTime     time.Time
 	CreatorID        uuid.UUID
@@ -52,32 +53,22 @@ type GetByIDResponse struct {
 	ModeratorID      uuid.UUID
 }
 
-type GetByHouseIDRequest struct {
+type GetApartmentsByHouseIDRequest struct {
 	HouseID uuid.UUID
 }
 
-type GetByHouseIDResponse struct {
-	Apartments []*struct {
-		ID               uuid.UUID
-		CreationTime     time.Time
-		CreatorID        uuid.UUID
-		HouseID          uuid.UUID
-		Price            int64
-		Rooms            int32
-		Status           string
-		StatusUpdateTime time.Time
-		ModeratorID      uuid.UUID
-	}
+type GetApartmentsByHouseIDResponse struct {
+	Apartments []*model.Apartment
 }
 
-type UpdateapartmentStatusRequest struct {
+type UpdateApartmentStatusRequest struct {
 	ID               uuid.UUID
 	Status           string
 	StatusUpdateTime time.Time
 	ModeratorID      uuid.UUID
 }
 
-type UpdateapartmentStatusResponse struct {
+type UpdateApartmentStatusResponse struct {
 	ID               uuid.UUID
 	CreationTime     time.Time
 	CreatorID        uuid.UUID

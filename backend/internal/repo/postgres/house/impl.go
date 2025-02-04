@@ -1,4 +1,4 @@
-package user
+package house
 
 import (
 	repoDto "backend/internal/repo/dto"
@@ -7,19 +7,19 @@ import (
 	"context"
 )
 
-type UserRepo struct {
+type HouseRepo struct {
 	logger       logger.Interface
 	retryAdapter postgres.RetryAdapterIntf
 }
 
-func NewUserRepo(logger logger.Interface, retryAdapter postgres.RetryAdapterIntf) *UserRepo {
-	return &UserRepo{
+func NewHouseRepo(logger logger.Interface, retryAdapter postgres.RetryAdapterIntf) *HouseRepo {
+	return &HouseRepo{
 		logger:       logger,
 		retryAdapter: retryAdapter,
 	}
 }
 
-func (r *UserRepo) Add(ctx context.Context, request *repoDto.AddUserRequest) (*repoDto.AddUserResponse, error) {
+func (r *HouseRepo) Add(ctx context.Context, request *repoDto.AddHouseRequest) (*repoDto.AddHouseResponse, error) {
 	method := "UserRepo -- Add"
 	r.logger.Infof("%s", method)
 
@@ -33,30 +33,30 @@ func (r *UserRepo) Add(ctx context.Context, request *repoDto.AddUserRequest) (*r
 		return nil, ErrNilRequest
 	}
 
-	query := "insert into users(creation_time, email, password, is_moderator, totp_secret) values ($1, $2, $3, $4, $5) returning id"
+	query := "insert into houses(creation_time, creator_id, address, max_apartments, apartments_update_time) values ($1, $2, $3, $4, $5) returning id"
 
-	response := repoDto.AddUserResponse{}
+	response := repoDto.AddHouseResponse{}
 	err := r.retryAdapter.QueryRow(
 		ctx,
 		query,
 		request.CreationTime,
-		request.Email,
-		request.Password,
-		request.IsModerator,
-		request.TotpSecret,
+		request.CreatorID,
+		request.Address,
+		request.MaxApartments,
+		request.ApartmentsUpdateTime,
 	).Scan(
 		response.ID,
 	)
 	if err != nil {
-		r.logger.Warnf("%s -- %s", method, ErrExec, err)
+		r.logger.Warnf("%s -- %s", method, ErrQueringRow, err)
 		return nil, ErrQueringRow
 	}
 
 	return &response, nil
 }
 
-func (r *UserRepo) GetByEmail(ctx context.Context, request *repoDto.GetUserByEmailRequest) (*repoDto.GetUserByEmailResponse, error) {
-	method := "UserRepo -- GetByEmail"
+func (r *HouseRepo) GetByID(ctx context.Context, request *repoDto.GetHouseByIDRequest) (*repoDto.GetHouseByIDResponse, error) {
+	method := "UserRepo -- Add"
 	r.logger.Infof("%s", method)
 
 	if ctx == nil {
@@ -69,23 +69,23 @@ func (r *UserRepo) GetByEmail(ctx context.Context, request *repoDto.GetUserByEma
 		return nil, ErrNilRequest
 	}
 
-	query := "select id, creation_time, email, password, is_moderator, totp_secret from users where email = $1"
+	query := "select id, creation_time, creator_id, address, max_apartments, update_apartments_time from houses where id = $1"
 
-	response := repoDto.GetUserByEmailResponse{}
+	response := repoDto.GetHouseByIDResponse{}
 	err := r.retryAdapter.QueryRow(
 		ctx,
 		query,
-		request.Email,
+		request.ID,
 	).Scan(
 		response.ID,
 		response.CreationTime,
-		response.Email,
-		response.Password,
-		response.TotpSecret,
-		response.IsModerator,
+		response.CreatorID,
+		response.Address,
+		response.MaxApartments,
+		response.ApartmentsUpdateTime,
 	)
 	if err != nil {
-		r.logger.Warnf("%s -- %s", method, ErrQueringRow)
+		r.logger.Warnf("%s -- %s", method, ErrQueringRow, err)
 		return nil, ErrQueringRow
 	}
 

@@ -57,7 +57,7 @@ func (s *HouseService) Create(ctx context.Context, request *serviceDto.CreateHou
 		CreatorID:            request.CreatorID,
 		Address:              request.Address,
 		MaxApartments:        request.MaxApartments,
-		UpdateApartmentsTime: time.Now(),
+		ApartmentsUpdateTime: time.Now(),
 	})
 	if err != nil {
 		return nil, err
@@ -69,6 +69,6 @@ func (s *HouseService) Create(ctx context.Context, request *serviceDto.CreateHou
 		CreatorID:            response.CreatorID,
 		Address:              response.Address,
 		MaxApartments:        response.MaxApartments,
-		UpdateApartmentsTime: response.UpdateApartmentsTime,
+		ApartmentsUpdateTime: response.ApartmentsUpdateTime,
 	}, nil
 }

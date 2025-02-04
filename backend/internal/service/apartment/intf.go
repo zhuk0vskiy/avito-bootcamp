@@ -1,17 +1,17 @@
 package apartment
 
 import (
-	"backend/internal/service/dto"
+	serviceDto "backend/internal/service/dto"
 	"context"
 	"errors"
 )
 
 type ApartmentIntf interface {
-	Create(ctx context.Context, request *dto.CreateapartmentRequest) (*dto.CreateapartmentResponse, error)
-	Delete(ctx context.Context, request *dto.CreateapartmentResponse) error
-	GetByID(ctx context.Context, request *dto.GetByIDRequest) (*dto.GetByIDResponse, error)
-	GetByHouseID(ctx context.Context, request *dto.GetByHouseIDRequest) (*dto.GetByHouseIDResponse, error)
-	UpdateStatus(ctx context.Context, request *dto.UpdateApartmentStatusRequest) (*dto.UpdateApartmentStatusResponse, error)
+	Create(ctx context.Context, request *serviceDto.CreateApartmentRequest) (*serviceDto.CreateApartmentResponse, error)
+	Delete(ctx context.Context, request *serviceDto.CreateApartmentResponse) error
+	GetByID(ctx context.Context, request *serviceDto.GetApartmentByIDRequest) (*serviceDto.GetApartmentByIDResponse, error)
+	GetByHouseID(ctx context.Context, request *serviceDto.GetApartmentsByHouseIDRequest) (*serviceDto.GetApartmentsByHouseIDResponse, error)
+	UpdateStatus(ctx context.Context, request *serviceDto.UpdateApartmentStatusRequest) (*serviceDto.UpdateApartmentStatusResponse, error)
 }
 
 var (
@@ -27,6 +27,6 @@ var (
 )
 
 var (
-	ErrNilRequest = errors.New("dto request is nil")
+	ErrNilRequest = errors.New("serviceDto request is nil")
 	ErrNilContext = errors.New("context is nil")
 )

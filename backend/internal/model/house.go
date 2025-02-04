@@ -12,5 +12,5 @@ type House struct {
 	CreatorID            uuid.UUID
 	Address              string
 	Maxapartments        int
-	UpdateapartmentsTime time.Time
+	ApartmentsUpdateTime time.Time
 }

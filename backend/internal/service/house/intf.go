@@ -1,15 +1,15 @@
 package house
 
 import (
-	"backend/internal/service/dto"
+	serviceDto "backend/internal/service/dto"
 	"context"
 	"errors"
 )
 
 type HouseIntf interface {
-	Create(ctx context.Context, request *dto.CreateHouseRequest) (*dto.CreateHouseResponse, error)
-	Delete(ctx context.Context, request *dto.DeleteHouseRequest) error
-	GetByID(ctx context.Context, request *dto.GetByHouseIDRequest) (*dto.GetByHouseIDResponse, error)
+	Create(ctx context.Context, request *serviceDto.CreateHouseRequest) (*serviceDto.CreateHouseResponse, error)
+	Delete(ctx context.Context, request *serviceDto.DeleteHouseRequest) error
+	GetByID(ctx context.Context, request *serviceDto.GetHouseByIDRequest) (*serviceDto.GetHouseByIDResponse, error)
 }
 
 var (

@@ -45,23 +45,23 @@ func (_m *UserIntf) Add(ctx context.Context, request *dto.AddUserRequest) (*dto.
 }
 
 // GetByEmail provides a mock function with given fields: ctx, request
-func (_m *UserIntf) GetByEmail(ctx context.Context, request *dto.GetUserByEmailRequest) (*dto.GetUserResponse, error) {
+func (_m *UserIntf) GetByEmail(ctx context.Context, request *dto.GetUserByEmailRequest) (*dto.GetUserByEmailResponse, error) {
 	ret := _m.Called(ctx, request)
 
 	if len(ret) == 0 {
 		panic("no return value specified for GetByEmail")
 	}
 
-	var r0 *dto.GetUserResponse
+	var r0 *dto.GetUserByEmailResponse
 	var r1 error
-	if rf, ok := ret.Get(0).(func(context.Context, *dto.GetUserByEmailRequest) (*dto.GetUserResponse, error)); ok {
+	if rf, ok := ret.Get(0).(func(context.Context, *dto.GetUserByEmailRequest) (*dto.GetUserByEmailResponse, error)); ok {
 		return rf(ctx, request)
 	}
-	if rf, ok := ret.Get(0).(func(context.Context, *dto.GetUserByEmailRequest) *dto.GetUserResponse); ok {
+	if rf, ok := ret.Get(0).(func(context.Context, *dto.GetUserByEmailRequest) *dto.GetUserByEmailResponse); ok {
 		r0 = rf(ctx, request)
 	} else {
 		if ret.Get(0) != nil {
-			r0 = ret.Get(0).(*dto.GetUserResponse)
+			r0 = ret.Get(0).(*dto.GetUserByEmailResponse)
 		}
 	}
 

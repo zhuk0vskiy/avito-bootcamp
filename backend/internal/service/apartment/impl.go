@@ -23,7 +23,7 @@ func NewapartmentService(logger logger.Interface, flarRepo apartmentRepo.Apartme
 	}
 }
 
-func (s *apartmentService) Create(ctx context.Context, request *serviceDto.CreateapartmentRequest) (*serviceDto.CreateapartmentResponse, error) {
+func (s *apartmentService) Create(ctx context.Context, request *serviceDto.CreateApartmentRequest) (*serviceDto.CreateApartmentResponse, error) {
 	method := "ApartmentService -- Create"
 	// s.logger.Infof("%s", method)
 	if ctx == nil {
@@ -71,21 +71,21 @@ func (s *apartmentService) Create(ctx context.Context, request *serviceDto.Creat
 		return nil, err
 	}
 
-	return &serviceDto.CreateapartmentResponse{
+	return &serviceDto.CreateApartmentResponse{
 		ID:               addResponse.ID,
-		CreationTime:     addResponse.CreationTime,
-		CreatorID:        addResponse.CreatorID,
-		HouseID:          addResponse.HouseID,
-		Price:            addResponse.Price,
-		Rooms:            addResponse.Rooms,
-		Status:           addResponse.Status,
-		StatusUpdateTime: addResponse.StatusUpdateTime,
-		ModeratorID:      addResponse.ModeratorID,
+		// CreationTime:     addResponse.CreationTime,
+		// CreatorID:        addResponse.CreatorID,
+		// HouseID:          addResponse.HouseID,
+		// Price:            addResponse.Price,
+		// Rooms:            addResponse.Rooms,
+		// Status:           addResponse.Status,
+		// StatusUpdateTime: addResponse.StatusUpdateTime,
+		// ModeratorID:      addResponse.ModeratorID,
 	}, nil
 
 }
 
-func (s *apartmentService) GetByID(ctx context.Context, request *serviceDto.GetByIDRequest) (*serviceDto.GetByIDResponse, error) {
+func (s *apartmentService) GetByID(ctx context.Context, request *serviceDto.GetApartmentByIDRequest) (*serviceDto.GetApartmentByIDResponse, error) {
 	method := "ApartmentServie -- GetByID"
 	s.logger.Infof("%s", method)
 	if ctx == nil {
@@ -104,14 +104,14 @@ func (s *apartmentService) GetByID(ctx context.Context, request *serviceDto.GetB
 		return nil, ErrBadID
 	}
 
-	response, err := s.apartmentRepo.GetByID(ctx, &repoDto.GetByIDRequest{
+	response, err := s.apartmentRepo.GetByID(ctx, &repoDto.GetApartmentByIDRequest{
 		ID: request.ID,
 	})
 	if err != nil {
 		return nil, err
 	}
 
-	return &serviceDto.GetByIDResponse{
+	return &serviceDto.GetApartmentByIDResponse{
 		ID:               response.ID,
 		CreationTime:     response.CreationTime,
 		CreatorID:        response.CreatorID,
@@ -125,7 +125,7 @@ func (s *apartmentService) GetByID(ctx context.Context, request *serviceDto.GetB
 
 }
 
-func (s *apartmentService) GetByHouseID(ctx context.Context, request *serviceDto.GetByHouseIDRequest) (*serviceDto.GetByHouseIDResponse, error) {
+func (s *apartmentService) GetByHouseID(ctx context.Context, request *serviceDto.GetApartmentsByHouseIDRequest) (*serviceDto.GetApartmentsByHouseIDResponse, error) {
 	method := "ApartmentServie -- GetByHouseID"
 	s.logger.Infof("%s", method)
 	if ctx == nil {
@@ -144,14 +144,14 @@ func (s *apartmentService) GetByHouseID(ctx context.Context, request *serviceDto
 		return nil, ErrBadID
 	}
 
-	response, err := s.apartmentRepo.GetByHouseID(ctx, &repoDto.GetByHouseIDRequest{
+	response, err := s.apartmentRepo.GetByHouseID(ctx, &repoDto.GetApartmentsByHouseIDRequest{
 		HouseID: request.HouseID,
 	})
 	if err != nil {
 		return nil, err
 	}
 
-	return &serviceDto.GetByHouseIDResponse{
+	return &serviceDto.GetApartmentsByHouseIDResponse{
 		Apartments: response.Apartments,
 	}, nil
 }
@@ -186,7 +186,7 @@ func (s *apartmentService) UpdateStatus(ctx context.Context, request *serviceDto
 		return nil, ErrBadStatus
 	}
 
-	response, err := s.apartmentRepo.UpdateStatus(ctx, &repoDto.UpdateapartmentStatusRequest{
+	response, err := s.apartmentRepo.UpdateStatus(ctx, &repoDto.UpdateApartmentStatusRequest{
 		ID:               request.ID,
 		Status:           request.Status,
 		StatusUpdateTime: time.Now(),

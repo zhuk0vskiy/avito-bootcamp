@@ -11,7 +11,7 @@ type AddHouseRequest struct {
 	CreatorID            uuid.UUID
 	Address              string
 	MaxApartments        int32
-	UpdateApartmentsTime time.Time
+	ApartmentsUpdateTime time.Time
 }
 
 type AddHouseResponse struct {
@@ -20,7 +20,7 @@ type AddHouseResponse struct {
 	CreatorID            uuid.UUID
 	Address              string
 	MaxApartments        int32
-	UpdateApartmentsTime time.Time
+	ApartmentsUpdateTime time.Time
 }
 
 type DeleteHouseRequest struct {
@@ -35,11 +35,11 @@ type GetHouseByIDRequest struct {
 	ID uuid.UUID
 }
 
-type GetHouseByIDRespone struct {
+type GetHouseByIDResponse struct {
 	ID                   uuid.UUID
 	CreationTime         time.Time
 	CreatorID            uuid.UUID
 	Address              string
 	MaxApartments        int32
-	UpdateApartmentsTime time.Time
+	ApartmentsUpdateTime time.Time
 }

@@ -23,7 +23,7 @@ type GetUserByEmailRequest struct {
 	Email string
 }
 
-type GetUserResponse struct {
+type GetUserByEmailResponse struct {
 	ID           uuid.UUID
 	CreationTime time.Time
 	Email        string
