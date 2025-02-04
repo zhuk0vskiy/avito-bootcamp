@@ -15,8 +15,8 @@ type AddUserRequest struct {
 }
 
 type AddUserResponse struct {
-	ID           uuid.UUID
-	CreationTime time.Time
+	ID uuid.UUID
+	// CreationTime time.Time
 }
 
 type GetUserByEmailRequest struct {
@@ -24,9 +24,10 @@ type GetUserByEmailRequest struct {
 }
 
 type GetUserResponse struct {
-	ID          uuid.UUID
-	Email       string
-	Password    []byte
-	TotpSecret  []byte
-	IsModerator bool
+	ID           uuid.UUID
+	CreationTime time.Time
+	Email        string
+	Password     []byte
+	TotpSecret   []byte
+	IsModerator  bool
 }

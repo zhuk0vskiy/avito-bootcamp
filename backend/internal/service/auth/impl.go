@@ -1,9 +1,8 @@
 package auth
 
 import (
-	"backend/internal/model"
 	repoDto "backend/internal/repo/dto"
-	userRepo "backend/internal/repo/user"
+	userRepo "backend/internal/repo/postgres/user"
 	serviceDto "backend/internal/service/dto"
 	"backend/pkg/aes"
 	"backend/pkg/logger"
@@ -34,34 +33,34 @@ func (s *AuthService) SignUp(ctx context.Context, request *serviceDto.SignUpRequ
 	method := "AuthServie -- SignUp"
 	s.logger.Infof("%s", method)
 	if ctx == nil {
-		s.logger.Errorf("%s -- %s", method, model.ErrUser_NilContext)
-		return nil, model.ErrUser_NilContext
+		s.logger.Errorf("%s -- %s", method, ErrNilContext)
+		return nil, ErrNilContext
 	}
 
 	if request == nil {
-		s.logger.Errorf("%s -- %s", method, model.ErrUser_NilRequest)
-		return nil, model.ErrUser_NilRequest
+		s.logger.Errorf("%s -- %s", method, ErrNilRequest)
+		return nil, ErrNilRequest
 	}
 
 	if !validator.IsValidEmail(request.Email) {
-		s.logger.Warnf("%s -- %s", method, model.ErrUser_BadMail)
-		return nil, model.ErrUser_BadMail
+		s.logger.Warnf("%s -- %s", method, ErrBadMail)
+		return nil, ErrBadMail
 	}
 
 	if request.Password == "" {
-		s.logger.Warnf("%s -- %s", method, model.ErrUser_BadPassword)
-		return nil, model.ErrUser_BadPassword
+		s.logger.Warnf("%s -- %s", method, ErrBadPassword)
+		return nil, ErrBadPassword
 	}
 
 	if !(request.Role == "client" || request.Role == "moderator") {
-		s.logger.Warnf("%s -- %s", method, model.ErrUser_BadType)
-		return nil, model.ErrUser_BadType
+		s.logger.Warnf("%s -- %s", method, ErrBadType)
+		return nil, ErrBadType
 	}
 
 	hashPassword, err := bcrypt.GenerateFromPassword([]byte(request.Password), bcrypt.DefaultCost)
 	if err != nil {
-		s.logger.Warnf("%s -- %s", method, model.ErrUser_ErrorHashPassword)
-		return nil, model.ErrUser_ErrorHashPassword
+		s.logger.Warnf("%s -- %s", method, ErrErrorHashPassword)
+		return nil, ErrErrorHashPassword
 	}
 
 	var isModerator bool
@@ -76,14 +75,14 @@ func (s *AuthService) SignUp(ctx context.Context, request *serviceDto.SignUpRequ
 		AccountName: request.Email,
 	})
 	if err != nil {
-		s.logger.Warnf("%s -- %s", method, model.ErrUser_ErrorTotpGenerate)
-		return nil, model.ErrUser_ErrorTotpGenerate
+		s.logger.Warnf("%s -- %s", method, ErrErrorTotpGenerate)
+		return nil, ErrErrorTotpGenerate
 	}
 
 	totpSecretEncypt, err := aes.AesEncrypt(aes.KEY, []byte(totp.Secret()))
 	if err != nil {
-		s.logger.Warnf("%s -- %s", method, model.ErrUser_TotpEncrypt)
-		return nil, model.ErrUser_TotpEncrypt
+		s.logger.Warnf("%s -- %s", method, ErrTotpEncrypt)
+		return nil, ErrTotpEncrypt
 	}
 
 	response, err := s.UserRepoIntf.Add(ctx, &repoDto.AddUserRequest{
@@ -99,7 +98,6 @@ func (s *AuthService) SignUp(ctx context.Context, request *serviceDto.SignUpRequ
 	}
 	return &serviceDto.SignUpResponse{
 		ID:           response.ID,
-		CreationTime: response.CreationTime,
 		TotpSecret:   totp.Secret(),
 	}, nil
 }
@@ -109,23 +107,23 @@ func (s *AuthService) LogIn(ctx context.Context, request *serviceDto.LogInReques
 	s.logger.Infof("%s", method)
 
 	if ctx == nil {
-		s.logger.Errorf("%s -- %s", method, model.ErrUser_NilContext)
-		return nil, model.ErrUser_NilContext
+		s.logger.Errorf("%s -- %s", method, ErrNilContext)
+		return nil, ErrNilContext
 	}
 
 	if request == nil {
-		s.logger.Errorf("%s -- %s", method, model.ErrUser_NilRequest)
-		return nil, model.ErrUser_NilRequest
+		s.logger.Errorf("%s -- %s", method, ErrNilRequest)
+		return nil, ErrNilRequest
 	}
 
 	if !validator.IsValidEmail(request.Email) {
-		s.logger.Warnf("%s -- %s", method, model.ErrUser_BadMail)
-		return nil, model.ErrUser_BadMail
+		s.logger.Warnf("%s -- %s", method, ErrBadMail)
+		return nil, ErrBadMail
 	}
 
 	if request.Password == "" {
-		s.logger.Warnf("%s -- %s", method, model.ErrUser_BadPassword)
-		return nil, model.ErrUser_BadPassword
+		s.logger.Warnf("%s -- %s", method, ErrBadPassword)
+		return nil, ErrBadPassword
 	}
 
 	user, err := s.UserRepoIntf.GetByEmail(ctx, &repoDto.GetUserByEmailRequest{
@@ -137,25 +135,25 @@ func (s *AuthService) LogIn(ctx context.Context, request *serviceDto.LogInReques
 	}
 
 	if request.Email != user.Email {
-		s.logger.Errorf("%s -- %s", method, model.ErrUser_BadMail)
-		return nil, model.ErrUser_BadMail
+		s.logger.Errorf("%s -- %s", method, ErrBadMail)
+		return nil, ErrBadMail
 	}
 
 	err = bcrypt.CompareHashAndPassword(user.Password, []byte(request.Password))
 	if err != nil {
-		s.logger.Errorf("%s -- %s", method, model.ErrUser_TotpDecrypt)
-		return nil, model.ErrUser_TotpDecrypt
+		s.logger.Errorf("%s -- %s", method, ErrTotpDecrypt)
+		return nil, ErrTotpDecrypt
 	}
 
 	totpSecret, err := aes.AesDecrypt(aes.KEY, user.TotpSecret)
 	if err != nil {
-		s.logger.Errorf("%s -- %s", method, model.ErrUser_TotpDecrypt)
-		return nil, model.ErrUser_TotpDecrypt
+		s.logger.Errorf("%s -- %s", method, ErrTotpDecrypt)
+		return nil, ErrTotpDecrypt
 	}
 
 	if !totp.Validate(request.Token, string(totpSecret)) {
-		s.logger.Warnf("%s -- %s", method, model.ErrUser_BadToken)
-		return nil, model.ErrUser_BadToken
+		s.logger.Warnf("%s -- %s", method, ErrBadToken)
+		return nil, ErrBadToken
 	}
 
 	// pasetoStruct, err := paseto.NewPaseto(paseto.KEY)

@@ -1,8 +1,7 @@
 package apartment
 
 import (
-	"backend/internal/model"
-	apartmentRepo "backend/internal/repo/apartment"
+	apartmentRepo "backend/internal/repo/postgres/apartment"
 	repoDto "backend/internal/repo/dto"
 	serviceDto "backend/internal/service/dto"
 	"time"
@@ -25,38 +24,38 @@ func NewapartmentService(logger logger.Interface, flarRepo apartmentRepo.Apartme
 }
 
 func (s *apartmentService) Create(ctx context.Context, request *serviceDto.CreateapartmentRequest) (*serviceDto.CreateapartmentResponse, error) {
-	method := "ApartmentServie -- Create"
-	s.logger.Infof("%s", method)
+	method := "ApartmentService -- Create"
+	// s.logger.Infof("%s", method)
 	if ctx == nil {
-		s.logger.Errorf("%s -- %s", method, model.ErrApartment_NilContext)
-		return nil, model.ErrApartment_NilContext
+		s.logger.Errorf("%s -- %s", method, ErrNilContext)
+		return nil, ErrNilContext
 	}
 
 	if request == nil {
-		s.logger.Errorf("%s -- %s", method, model.ErrApartment_NilRequest)
-		return nil, model.ErrApartment_NilRequest
+		s.logger.Errorf("%s -- %s", method, ErrNilRequest)
+		return nil, ErrNilRequest
 	}
 
 	err := validator.IsValidUUID(request.CreatorID.String())
 	if err != nil {
-		s.logger.Warnf("%s -- %s -- %s", method, model.ErrApartment_BadCreatorID, err)
-		return nil, model.ErrApartment_BadCreatorID
+		s.logger.Warnf("%s -- %s", method, err)
+		return nil, ErrBadCreatorID
 	}
 
 	err = validator.IsValidUUID(request.HouseID.String())
 	if err != nil {
-		s.logger.Warnf("%s -- %s -- %s", method, model.ErrApartment_BadHouseID, err)
-		return nil, model.ErrApartment_BadCreatorID
+		s.logger.Warnf("%s -- %s", method, err)
+		return nil, ErrBadCreatorID
 	}
 
 	if request.Price < 0 {
-		s.logger.Warnf("%s -- %s -- %s", method, model.ErrApartment_BadPrice, err)
-		return nil, model.ErrApartment_BadPrice
+		s.logger.Warnf("%s -- %s", method, ErrBadPrice)
+		return nil, ErrBadPrice
 	}
 
 	if request.Rooms < 0 {
-		s.logger.Warnf("%s -- %s -- %s", method, model.ErrApartment_BadRooms, err)
-		return nil, model.ErrApartment_BadRooms
+		s.logger.Warnf("%s -- %s", method, ErrBadRooms)
+		return nil, ErrBadRooms
 	}
 
 	addResponse, err := s.apartmentRepo.Add(ctx, &repoDto.AddApartmentRequest{
@@ -90,19 +89,19 @@ func (s *apartmentService) GetByID(ctx context.Context, request *serviceDto.GetB
 	method := "ApartmentServie -- GetByID"
 	s.logger.Infof("%s", method)
 	if ctx == nil {
-		s.logger.Errorf("%s -- %s", method, model.ErrApartment_NilContext)
-		return nil, model.ErrApartment_NilContext
+		s.logger.Errorf("%s -- %s", method, ErrNilContext)
+		return nil, ErrNilContext
 	}
 
 	if request == nil {
-		s.logger.Errorf("%s -- %s", method, model.ErrApartment_NilRequest)
-		return nil, model.ErrApartment_NilRequest
+		s.logger.Errorf("%s -- %s", method, ErrNilRequest)
+		return nil, ErrNilRequest
 	}
 
 	err := validator.IsValidUUID(request.ID.String())
 	if err != nil {
-		s.logger.Warnf("%s -- %s -- %s", method, model.ErrApartment_BadID, err)
-		return nil, model.ErrApartment_BadID
+		s.logger.Warnf("%s -- %s -- %s", method, ErrBadID, err)
+		return nil, ErrBadID
 	}
 
 	response, err := s.apartmentRepo.GetByID(ctx, &repoDto.GetByIDRequest{
@@ -130,19 +129,19 @@ func (s *apartmentService) GetByHouseID(ctx context.Context, request *serviceDto
 	method := "ApartmentServie -- GetByHouseID"
 	s.logger.Infof("%s", method)
 	if ctx == nil {
-		s.logger.Errorf("%s -- %s", method, model.ErrApartment_NilContext)
-		return nil, model.ErrApartment_NilContext
+		s.logger.Errorf("%s -- %s", method, ErrNilContext)
+		return nil, ErrNilContext
 	}
 
 	if request == nil {
-		s.logger.Errorf("%s -- %s", method, model.ErrApartment_NilRequest)
-		return nil, model.ErrApartment_NilRequest
+		s.logger.Errorf("%s -- %s", method, ErrNilRequest)
+		return nil, ErrNilRequest
 	}
 
 	err := validator.IsValidUUID(request.HouseID.String())
 	if err != nil {
-		s.logger.Warnf("%s -- %s -- %s", method, model.ErrApartment_BadID, err)
-		return nil, model.ErrApartment_BadID
+		s.logger.Warnf("%s -- %s -- %s", method, ErrBadID, err)
+		return nil, ErrBadID
 	}
 
 	response, err := s.apartmentRepo.GetByHouseID(ctx, &repoDto.GetByHouseIDRequest{
@@ -161,30 +160,30 @@ func (s *apartmentService) UpdateStatus(ctx context.Context, request *serviceDto
 	method := "ApartmentServie -- UpdateStatus"
 	s.logger.Infof("%s", method)
 	if ctx == nil {
-		s.logger.Errorf("%s -- %s", method, model.ErrApartment_NilContext)
-		return nil, model.ErrApartment_NilContext
+		s.logger.Errorf("%s -- %s", method, ErrNilContext)
+		return nil, ErrNilContext
 	}
 
 	if request == nil {
-		s.logger.Errorf("%s -- %s", method, model.ErrApartment_NilRequest)
-		return nil, model.ErrApartment_NilRequest
+		s.logger.Errorf("%s -- %s", method, ErrNilRequest)
+		return nil, ErrNilRequest
 	}
 
 	err := validator.IsValidUUID(request.ID.String())
 	if err != nil {
-		s.logger.Warnf("%s -- %s -- %s", method, model.ErrApartment_BadID, err)
-		return nil, model.ErrApartment_BadID
+		s.logger.Warnf("%s -- %s -- %s", method, ErrBadID, err)
+		return nil, ErrBadID
 	}
 
 	err = validator.IsValidUUID(request.ModeratorID.String())
 	if err != nil {
-		s.logger.Warnf("%s -- %s -- %s", method, model.ErrApartment_BadModeratorID, err)
-		return nil, model.ErrApartment_BadModeratorID
+		s.logger.Warnf("%s -- %s -- %s", method, ErrBadModeratorID, err)
+		return nil, ErrBadModeratorID
 	}
 
 	if !validator.IsValidApartmentStatus(request.Status) {
-		s.logger.Warnf("%s -- %s", method, model.ErrApartment_BadStatus)
-		return nil, model.ErrApartment_BadStatus
+		s.logger.Warnf("%s -- %s", method, ErrBadStatus)
+		return nil, ErrBadStatus
 	}
 
 	response, err := s.apartmentRepo.UpdateStatus(ctx, &repoDto.UpdateapartmentStatusRequest{

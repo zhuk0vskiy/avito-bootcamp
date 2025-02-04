@@ -14,7 +14,7 @@ const (
 type Notify struct {
 	ID           uuid.UUID
 	CreationTime time.Time
-	apartmentID  uuid.UUID
+	ApartmentID  uuid.UUID
 	HouseID      uuid.UUID
 	SubscriberID uuid.UUID
 	Status       string

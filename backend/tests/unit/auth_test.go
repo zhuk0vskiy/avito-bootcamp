@@ -5,7 +5,7 @@ import (
 	// "time"
 
 	// "sso-like/internal/model"
-	"backend/internal/repo/user/mocks"
+	"backend/internal/repo/postgres/user/mocks"
 	"backend/internal/service/auth"
 
 	// "backend/pkg/logger"
