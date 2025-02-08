@@ -32,11 +32,12 @@ func (r *HouseRepo) Add(ctx context.Context, request *repoDto.AddHouseRequest) (
 		r.logger.Errorf("%s -- %s", method, ErrNilRequest)
 		return nil, ErrNilRequest
 	}
-
 	query := "insert into houses(creation_time, creator_id, address, max_apartments, apartments_update_time) values ($1, $2, $3, $4, $5) returning id"
 
+	// query := "insert into houses(creation_time, creator_id, address, max_flats, last_update_time) values ($1, $2, $3, $4, $5) returning id"
+
 	response := repoDto.AddHouseResponse{}
-	err := r.retryAdapter.QueryRow(
+	rows := r.retryAdapter.QueryRow(
 		ctx,
 		query,
 		request.CreationTime,
@@ -44,11 +45,15 @@ func (r *HouseRepo) Add(ctx context.Context, request *repoDto.AddHouseRequest) (
 		request.Address,
 		request.MaxApartments,
 		request.ApartmentsUpdateTime,
-	).Scan(
-		response.ID,
 	)
+	defer rows.Close()
+
+	err := rows.Scan(
+		&response.ID,
+	)
+	
 	if err != nil {
-		r.logger.Warnf("%s -- %s", method, ErrQueringRow, err)
+		r.logger.Warnf("%s -- %s -- %s", method, ErrQueringRow, err)
 		return nil, ErrQueringRow
 	}
 

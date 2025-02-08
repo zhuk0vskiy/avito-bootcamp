@@ -36,7 +36,7 @@ func (r *UserRepo) Add(ctx context.Context, request *repoDto.AddUserRequest) (*r
 	query := "insert into users(creation_time, email, password, is_moderator, totp_secret) values ($1, $2, $3, $4, $5) returning id"
 
 	response := repoDto.AddUserResponse{}
-	err := r.retryAdapter.QueryRow(
+	rows := r.retryAdapter.QueryRow(
 		ctx,
 		query,
 		request.CreationTime,
@@ -44,7 +44,9 @@ func (r *UserRepo) Add(ctx context.Context, request *repoDto.AddUserRequest) (*r
 		request.Password,
 		request.IsModerator,
 		request.TotpSecret,
-	).Scan(
+	)
+	defer rows.Close()
+	err := rows.Scan(
 		response.ID,
 	)
 	if err != nil {

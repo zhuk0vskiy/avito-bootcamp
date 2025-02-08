@@ -156,11 +156,6 @@ func (s *AuthService) LogIn(ctx context.Context, request *serviceDto.LogInReques
 		return nil, ErrBadToken
 	}
 
-	// pasetoStruct, err := paseto.NewPaseto(paseto.KEY)
-	// if err != nil {
-	// 	a.logger.Errorf("failed to generate paseto struct", err)
-	// 	return "", err
-	// }
 	token, err := s.pasetoToken.CreateToken(user.ID, user.IsModerator, 1*time.Hour)
 	if err != nil {
 		s.logger.Warnf("%s -- %s", method, err)

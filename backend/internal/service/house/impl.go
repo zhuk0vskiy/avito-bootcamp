@@ -72,3 +72,40 @@ func (s *HouseService) Create(ctx context.Context, request *serviceDto.CreateHou
 		ApartmentsUpdateTime: response.ApartmentsUpdateTime,
 	}, nil
 }
+
+func (s *HouseService) GetByID(ctx context.Context, request *serviceDto.GetHouseByIDRequest) (*serviceDto.GetHouseByIDResponse, error) {
+	method := "HouseServie -- GetByID"
+	s.logger.Infof("%s", method)
+	if ctx == nil {
+		s.logger.Errorf("%s -- %s", method, ErrNilContext)
+		return nil, ErrNilContext
+	}
+
+	if request == nil {
+		s.logger.Errorf("%s -- %s", method, ErrNilRequest)
+		return nil, ErrNilRequest
+	}
+
+	err := validator.IsValidUUID(request.ID.String())
+	if err != nil {
+		s.logger.Warnf("%s -- %s -- %s", method, ErrBadID, err)
+		return nil, ErrBadID
+	}
+
+	response, err := s.houseRepoIntf.GetByID(ctx, &repoDto.GetHouseByIDRequest{
+		ID: request.ID,
+	})
+	if err != nil {
+		return nil, err
+	}
+
+	return &serviceDto.GetHouseByIDResponse{
+		ID:                   response.ID,
+		CreationTime:         response.CreationTime,
+		CreatorID:            response.CreatorID,
+		Address:              response.Address,
+		MaxApartments:        response.MaxApartments,
+		ApartmentsUpdateTime: response.ApartmentsUpdateTime,
+	}, nil
+
+}

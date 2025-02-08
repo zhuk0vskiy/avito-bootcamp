@@ -16,10 +16,10 @@ type apartmentService struct {
 	apartmentRepo apartmentRepo.ApartmentIntf
 }
 
-func NewapartmentService(logger logger.Interface, flarRepo apartmentRepo.ApartmentIntf) *apartmentService {
+func NewApartmentService(logger logger.Interface, apartmentRepo apartmentRepo.ApartmentIntf) *apartmentService {
 	return &apartmentService{
 		logger:        logger,
-		apartmentRepo: flarRepo,
+		apartmentRepo: apartmentRepo,
 	}
 }
 
@@ -58,7 +58,7 @@ func (s *apartmentService) Create(ctx context.Context, request *serviceDto.Creat
 		return nil, ErrBadRooms
 	}
 
-	addResponse, err := s.apartmentRepo.Add(ctx, &repoDto.AddApartmentRequest{
+	response, err := s.apartmentRepo.Add(ctx, &repoDto.AddApartmentRequest{
 		CreationTime:     time.Now(),
 		CreatorID:        request.CreatorID,
 		HouseID:          request.HouseID,
@@ -71,8 +71,10 @@ func (s *apartmentService) Create(ctx context.Context, request *serviceDto.Creat
 		return nil, err
 	}
 
+
+
 	return &serviceDto.CreateApartmentResponse{
-		ID:               addResponse.ID,
+		ID:               response.ID,
 		// CreationTime:     addResponse.CreationTime,
 		// CreatorID:        addResponse.CreatorID,
 		// HouseID:          addResponse.HouseID,

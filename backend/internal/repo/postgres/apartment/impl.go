@@ -54,6 +54,8 @@ func (r *ApartmentRepo) Add(ctx context.Context, request *repoDto.AddApartmentRe
 		r.logger.Warnf("%s -- %s", method, ErrQueryRow, err)
 		return nil, ErrQueryRow
 	}
+
+	
 	return &response, nil
 }
 

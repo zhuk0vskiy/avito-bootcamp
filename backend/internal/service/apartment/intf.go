@@ -8,7 +8,7 @@ import (
 
 type ApartmentIntf interface {
 	Create(ctx context.Context, request *serviceDto.CreateApartmentRequest) (*serviceDto.CreateApartmentResponse, error)
-	Delete(ctx context.Context, request *serviceDto.CreateApartmentResponse) error
+	// Delete(ctx context.Context, request *serviceDto.CreateApartmentResponse) error
 	GetByID(ctx context.Context, request *serviceDto.GetApartmentByIDRequest) (*serviceDto.GetApartmentByIDResponse, error)
 	GetByHouseID(ctx context.Context, request *serviceDto.GetApartmentsByHouseIDRequest) (*serviceDto.GetApartmentsByHouseIDResponse, error)
 	UpdateStatus(ctx context.Context, request *serviceDto.UpdateApartmentStatusRequest) (*serviceDto.UpdateApartmentStatusResponse, error)

@@ -7,15 +7,15 @@ import (
 )
 
 const (
-	SendedNotifyStatus   = "send"
-	NoSendedNotifyStatus = "no send"
+	SendedNoticeStatus   = "send"
+	NoSendedNoticeStatus = "no send"
 )
 
-type Notify struct {
-	ID           uuid.UUID
-	CreationTime time.Time
-	ApartmentID  uuid.UUID
-	HouseID      uuid.UUID
-	SubscriberID uuid.UUID
-	Status       string
+type Notice struct {
+	ID           uuid.UUID `json:"id"`
+	CreationTime time.Time `json:"creation_time"`
+	ApartmentID  uuid.UUID `json:"apartment_id"`
+	SubscriberID uuid.UUID `json:"subscriber_id"`
+	HouseID      uuid.UUID `json:"house_id"`
+	Status       string    `json:"status"`
 }

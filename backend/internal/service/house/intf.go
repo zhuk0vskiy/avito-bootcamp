@@ -8,7 +8,7 @@ import (
 
 type HouseIntf interface {
 	Create(ctx context.Context, request *serviceDto.CreateHouseRequest) (*serviceDto.CreateHouseResponse, error)
-	Delete(ctx context.Context, request *serviceDto.DeleteHouseRequest) error
+	// Delete(ctx context.Context, request *serviceDto.DeleteHouseRequest) error
 	GetByID(ctx context.Context, request *serviceDto.GetHouseByIDRequest) (*serviceDto.GetHouseByIDResponse, error)
 }
 
