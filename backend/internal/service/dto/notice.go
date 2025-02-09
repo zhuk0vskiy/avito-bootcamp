@@ -30,12 +30,20 @@ type IsNeedToNoticeSubscribersResponse struct {
 	IsNeedToNoticeSubscribers bool
 }
 
-type SendNoticesRequest struct {
+type CreateNoticesRequest struct {
 	// UserIDs     []uuid.UUID
 	ApartmentID uuid.UUID
 	HouseID     uuid.UUID
 }
 
-type SendNoticesResponse struct {
+type CreateNoticesResponse struct {
+	NoticeIDs []uuid.UUID
+}
+
+type SendNoticesToKafkaRequest struct {
+
+}
+
+type SendNoticesToKafkaResponse struct {
 	NoticeIDs []uuid.UUID
 }

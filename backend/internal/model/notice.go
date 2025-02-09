@@ -17,5 +17,4 @@ type Notice struct {
 	ApartmentID  uuid.UUID `json:"apartment_id"`
 	SubscriberID uuid.UUID `json:"subscriber_id"`
 	HouseID      uuid.UUID `json:"house_id"`
-	Status       string    `json:"status"`
 }

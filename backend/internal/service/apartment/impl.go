@@ -14,6 +14,7 @@ import (
 type apartmentService struct {
 	logger        logger.Interface
 	apartmentRepo apartmentRepo.ApartmentIntf
+	
 }
 
 func NewApartmentService(logger logger.Interface, apartmentRepo apartmentRepo.ApartmentIntf) *apartmentService {

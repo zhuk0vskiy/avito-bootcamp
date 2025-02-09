@@ -15,7 +15,9 @@ type NoticeIntf interface {
 	// Unsubscribe(ctx context.Context, request *dto.UnsubscribeRequest) (*dto.UnsubscribeResponse, error)
 	// Noticeing(ctx context.Context, request *)
 	// SendNotice(ctx context.Context, request *)
+	GetNoticesOutbox(ctx context.Context, request *repoDto.GetNoticesOutboxRequest) (*repoDto.GetNoticesOutboxResponse, error)
 	Add(ctx context.Context, request *repoDto.AddNoticeRequest) (*repoDto.AddNoticeResponse, error)
+	ConfirmNoticeOutbox(ctx context.Context, request *repoDto.ConfirmNoticeOutboxRequest) (*repoDto.ConfirmNoticeOutboxResponse, error)
 }
 
 var (

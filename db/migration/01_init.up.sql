@@ -35,8 +35,9 @@ create table if not exists apartments
     house_id uuid not null references houses(id),
     price bigint not null,
     rooms integer not null,
-    status_update_time timestamp,
-    moderator_id uuid not null references users(id)
+    status text not null,
+    status_update_time timestamp not null,
+    moderator_id uuid references users(id)
 );
 
 create table if not exists subscribers

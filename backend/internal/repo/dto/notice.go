@@ -1,6 +1,7 @@
 package dto
 
 import (
+	"backend/internal/model"
 	"time"
 
 	"github.com/google/uuid"
@@ -30,13 +31,13 @@ type UnsubscribeResponse struct {
 
 type AddNoticeRequest struct {
 	CreationTime time.Time
-	SubscriberID  uuid.UUID
+	SubscriberID uuid.UUID
 	ApartmentID  uuid.UUID
 	HouseID      uuid.UUID
 }
 
 type AddNoticeResponse struct {
-	NoticeID uuid.UUID
+	NoticeID       uuid.UUID
 	NoticeOutboxID uuid.UUID
 }
 
@@ -54,4 +55,30 @@ type GetSubscribersByHouseIDRequest struct {
 
 type GetSubscribersByHouseIDResponse struct {
 	UsersIDs []uuid.UUID
+}
+
+type ProduceMessageRequest struct {
+	Messages []*struct{
+		CreationTime time.Time `json:"creation_time"`
+		ApartmentID  uuid.UUID `json:"apartment_id"`
+		SubscriberID uuid.UUID `json:"subscriber_id"`
+		HouseID      uuid.UUID `json:"house_id"`
+	}
+
+}
+
+type ProduceMessageResponse struct {}
+
+type GetNoticesOutboxRequest struct {}
+
+type GetNoticesOutboxResponse struct {
+	Notices []*model.Notice
+}
+
+type ConfirmNoticeOutboxRequest struct {
+	NoticeID uuid.UUID
+}
+
+type ConfirmNoticeOutboxResponse struct {
+	NoticeOutboxID uuid.UUID
 }

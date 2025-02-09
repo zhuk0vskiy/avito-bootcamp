@@ -6,6 +6,8 @@ import (
 	"backend/internal/repo/postgres"
 	"backend/pkg/logger"
 	"context"
+
+	"github.com/google/uuid"
 )
 
 type ApartmentRepo struct {
@@ -36,7 +38,7 @@ func (r *ApartmentRepo) Add(ctx context.Context, request *repoDto.AddApartmentRe
 
 	query := "insert into apartments(creation_time, creator_id, house_id, price, rooms, status, status_update_time) values ($1, $2, $3, $4, $5, $6, $7) returning id"
 
-	response := repoDto.AddApartmentResponse{}
+	var id uuid.UUID
 	err := r.retryAdapter.QueryRow(
 		ctx,
 		query,
@@ -48,15 +50,17 @@ func (r *ApartmentRepo) Add(ctx context.Context, request *repoDto.AddApartmentRe
 		request.Status,
 		request.StatusUpdateTime,
 	).Scan(
-		response.ID,
+		&id,
 	)
 	if err != nil {
 		r.logger.Warnf("%s -- %s", method, ErrQueryRow, err)
 		return nil, ErrQueryRow
 	}
 
-	
-	return &response, nil
+
+	return &repoDto.AddApartmentResponse{
+		ID: id,
+	}, nil
 }
 
 func (r *ApartmentRepo) GetByID(ctx context.Context, request *repoDto.GetApartmentByIDRequest) (*repoDto.GetApartmentByIDResponse, error) {

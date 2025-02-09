@@ -17,6 +17,7 @@ func Test_Runner(t *testing.T) {
 		// &AuthSuite{},
 		// &HouseSuite{},
 		&NoticeSuite{},
+		// &ApartmentSuite{},
 	}
 	wg.Add(len(suits))
 

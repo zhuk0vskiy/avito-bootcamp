@@ -1,6 +1,7 @@
 package notice
 
 import (
+	"backend/internal/model"
 	repoDto "backend/internal/repo/dto"
 	"backend/internal/repo/postgres"
 	"backend/pkg/logger"
@@ -92,7 +93,7 @@ func (r *NoticeRepo) Add(ctx context.Context, request *repoDto.AddNoticeRequest)
 
 	// response := repoDto.AddNoticeResponse{}
 	var noticeID uuid.UUID
-	var noticeOutbouxID uuid.UUID
+	
 
 	query := "insert into notices(creation_time, subscriber_id, apartment_id, house_id) values ($1, $2, $3, $4) returning id"
 	err = tx.QueryRow(
@@ -106,24 +107,28 @@ func (r *NoticeRepo) Add(ctx context.Context, request *repoDto.AddNoticeRequest)
 		&noticeID,
 	)
 	if err != nil {
-		r.logger.Warnf("%s -- %w", method, ErrAddNotice)
+		r.logger.Warnf("%s -- %s -- %s", method, ErrAddNotice, err)
 		return nil, ErrAddNotice
 	}
 
+	var noticeOutbouxID uuid.UUID
+
 	query = "insert into notices_outbox(notice_id) values ($1) returning id"
-	_, err = tx.Exec(
+	err = tx.QueryRow(
 		ctx,
 		query,
+		noticeID,
+	).Scan(
 		&noticeOutbouxID,
 	)
 	if err != nil {
-		r.logger.Warnf("%s -- %w", method, ErrAddNoticeOutbox)
+		r.logger.Warnf("%s -- %s -- %s", method, ErrAddNoticeOutbox, err)
 		return nil, ErrAddNoticeOutbox
 	}
 
 	err = tx.Commit(ctx)
 	if err != nil {
-		r.logger.Warnf("%s -- %w", method, ErrCommit)
+		r.logger.Warnf("%s -- %s -- %s", method, ErrCommit, err)
 		return nil, ErrCommit
 	}
 
@@ -146,7 +151,7 @@ func (r *NoticeRepo) GetSubscribersByHouseID(ctx context.Context, request *repoD
 		return nil, ErrNilRequest
 	}
 
-	query := "select user_id from subsribers where house_id = %1"
+	query := "select user_id from subscribers where house_id = $1"
 
 	rows, err := r.retryAdapter.Query(
 		ctx,
@@ -179,5 +184,75 @@ func (r *NoticeRepo) GetSubscribersByHouseID(ctx context.Context, request *repoD
 	return &repoDto.GetSubscribersByHouseIDResponse{
 		UsersIDs: userIDs,
 	}, nil
+}
 
+func (r *NoticeRepo) GetNoticesOutbox(ctx context.Context, request *repoDto.GetNoticesOutboxRequest) (*repoDto.GetNoticesOutboxResponse, error) {
+	method := "NoticeRepo -- GetNoticesOutbox"
+
+	query := `select notices.id, notices.creation_time, notices.subscriber_id, notices.apartment_id, notices.house_id from notices
+			join notices_outbox on notices.id = notices_outbox.notice_id
+			where notices_outbox.is_send = false`
+
+	rows, err := r.retryAdapter.Query(
+		ctx,
+		query,
+	)
+	if err != nil {
+		r.logger.Warnf("%s -- %s", method, ErrQuery, err)
+		return nil, ErrQuery
+	}
+	defer rows.Close()
+
+	notices := make([]*model.Notice, 0)
+	
+
+	for rows.Next() {
+		notice := model.Notice{}
+		err = rows.Scan(
+			&notice.ID,
+			&notice.CreationTime,
+			&notice.SubscriberID,
+			&notice.ApartmentID,
+			&notice.HouseID,
+		)
+		if err != nil {
+			r.logger.Warnf("%s -- %s", method, ErrQueryRow, err)
+			return nil, ErrQueryRow
+		}
+		fmt.Println(notice)
+		notices = append(notices, &notice)
+	}
+	fmt.Println(notices)
+
+	return &repoDto.GetNoticesOutboxResponse{
+		Notices: notices,
+	}, nil
+}
+
+func (r *NoticeRepo) ConfirmNoticeOutbox(ctx context.Context, request *repoDto.ConfirmNoticeOutboxRequest) (*repoDto.ConfirmNoticeOutboxResponse, error) {
+	method := "NoticeRepo -- GetNoticesOutbox"
+
+	query := `update notices_outbox set is_send = true where notice_id = $1 returning id`
+
+	rows := r.retryAdapter.QueryRow(
+		ctx,
+		query,
+		request.NoticeID,
+	)
+	defer rows.Close()
+
+	var id uuid.UUID
+
+	err := rows.Scan(
+		&id,
+	)
+
+	if err != nil {
+		r.logger.Warnf("%s -- %s -- %s", method, ErrQueryRow, err)
+		return nil, ErrQueryRow
+	}
+
+	return &repoDto.ConfirmNoticeOutboxResponse{
+		NoticeOutboxID: id,
+	}, nil
 }

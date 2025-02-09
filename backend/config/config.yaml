@@ -1,0 +1,18 @@
+env: "local"  
+tokenTtl: "1h"
+
+db:
+  execRetryNumber: 3
+  sleepTimeMilsec: 3
+
+  postgres:
+    host: 'localhost'
+    port: 5432
+    user: 'avito'
+    password: 'avito'
+    database: 'avito'
+    driver: 'postgres'
+
+logger:
+  level: "info"
+  file: "out.log"
